@@ -2,7 +2,9 @@
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, UndecidableInstances, FlexibleContexts #-}
 {-# LANGUAGE ScopedTypeVariables, DefaultSignatures #-}
 
-module Control.Monad.Reader.Has where
+module Control.Monad.Reader.Has
+( Has(..)
+) where
 
 import Data.Proxy
 import GHC.Generics
