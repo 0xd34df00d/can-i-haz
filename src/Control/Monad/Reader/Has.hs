@@ -47,3 +47,10 @@ class Has part record where
 
 instance Has record record where
   extract = id
+
+instance SuccessfulSearch a0 (a0, a1) path => Has a0 (a0, a1)
+instance SuccessfulSearch a1 (a0, a1) path => Has a1 (a0, a1)
+
+instance SuccessfulSearch a0 (a0, a1, a2) path => Has a0 (a0, a1, a2)
+instance SuccessfulSearch a1 (a0, a1, a2) path => Has a1 (a0, a1, a2)
+instance SuccessfulSearch a2 (a0, a1, a2) path => Has a2 (a0, a1, a2)
