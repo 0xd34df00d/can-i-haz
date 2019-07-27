@@ -35,3 +35,8 @@ main = hspec $ do
       exFoo `shouldBe` baseFooEnv
       let exBar = extract $ AppEnv baseFooEnv baseBarEnv
       exBar `shouldBe` baseBarEnv
+    it "Tuples have their components" $ do
+      let exFoo = extract (baseFooEnv, baseBarEnv)
+      exFoo `shouldBe` baseFooEnv
+      let exBar = extract (baseFooEnv, baseBarEnv)
+      exBar `shouldBe` baseBarEnv
