@@ -31,3 +31,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - can-i-haz
+    - hspec
