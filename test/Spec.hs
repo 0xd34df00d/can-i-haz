@@ -1,25 +1,26 @@
 {-# LANGUAGE DeriveGeneric, DeriveAnyClass #-}
 
-import Test.Hspec
-
+import Control.DeepSeq
 import GHC.Generics
+import Test.Hspec
+import Test.ShouldNotTypecheck
 
 import Control.Monad.Reader.Has
 
 data FooEnv = FooEnv
   { fooInt :: Int
   , fooStr :: String
-  } deriving (Eq, Ord, Show)
+  } deriving (Eq, Ord, Show, Generic, NFData)
 
 data BarEnv = BarEnv
   { barDouble :: Double
   , barArr :: [Int]
-  } deriving (Eq, Ord, Show)
+  } deriving (Eq, Ord, Show, Generic, NFData)
 
 data AppEnv = AppEnv
   { fooEnv :: FooEnv
   , barEnv :: BarEnv
-  } deriving (Eq, Ord, Show, Generic, Has FooEnv, Has BarEnv)
+  } deriving (Eq, Ord, Show, Generic, NFData, Has FooEnv, Has BarEnv)
 
 main :: IO ()
 main = hspec $ do
