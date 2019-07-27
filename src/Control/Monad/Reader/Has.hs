@@ -1,4 +1,4 @@
-{-# LANGUAGE TypeOperators, DataKinds, PolyKinds, TypeFamilies #-}
+{-# LANGUAGE TypeOperators, DataKinds, PolyKinds, TypeFamilies, ConstraintKinds #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, UndecidableInstances, FlexibleContexts #-}
 {-# LANGUAGE ScopedTypeVariables, DefaultSignatures #-}
 
@@ -38,10 +38,12 @@ instance GHas path part l => GHas ('L path) part (l :*: r) where
 instance GHas path part r => GHas ('R path) part (l :*: r) where
   gextract _ (_ :*: r) = gextract (Proxy :: Proxy path) r
 
+type SuccessfulSearch part record path = (Search part (Rep record) ~ 'Found path, GHas path part (Rep record))
+
 class Has part record where
   extract :: record -> part
-  default extract :: forall p. (Generic record, Search part (Rep record) ~ 'Found p, GHas p part (Rep record)) => record -> part
-  extract = gextract (Proxy :: Proxy p) . from
+  default extract :: forall path. (Generic record, SuccessfulSearch part record path) => record -> part
+  extract = gextract (Proxy :: Proxy path) . from
 
 instance Has record record where
   extract = id
