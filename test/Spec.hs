@@ -4,6 +4,7 @@ import Test.ShouldNotTypecheck
 import Control.Monad.Reader.Has
 
 import Common
+import TypecheckFailures
 
 main :: IO ()
 main = hspec $ do
@@ -24,3 +25,6 @@ main = hspec $ do
       exFoo `shouldBe` baseFooEnv
       let exBar = extract (baseFooEnv, baseBarEnv)
       exBar `shouldBe` baseBarEnv
+  describe "Should not typecheck" $ do
+    it "if there is no such type in the hierarchy" $ shouldNotTypecheck extractMissing
+    it "if there is more than one such type in the hierarchy" $ shouldNotTypecheck extractMultiple
