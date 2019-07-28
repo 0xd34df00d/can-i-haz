@@ -64,6 +64,7 @@ and use @ask extract@ instead of @ask@ (but this is something you'd have to do a
 
 module Control.Monad.Reader.Has
 ( Has(..)
+, SuccessfulSearch
 ) where
 
 import Data.Proxy
@@ -100,6 +101,9 @@ instance GHas path part l => GHas ('L path) part (l :*: r) where
 instance GHas path part r => GHas ('R path) part (l :*: r) where
   gextract _ (_ :*: r) = gextract (Proxy :: Proxy path) r
 
+-- | Type alias representing that the search of @part@ in @record@ has been successful.
+--
+-- The @path@ is used to guide the default generic implementation of 'Has'.
 type SuccessfulSearch part record path = (Search part (Rep record) ~ 'Found path, GHas path part (Rep record))
 
 -- | The @Has part record@ class is used for records of type @record@ supporting
