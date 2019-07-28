@@ -2,6 +2,7 @@
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, UndecidableInstances, FlexibleContexts #-}
 {-# LANGUAGE ScopedTypeVariables, DefaultSignatures #-}
 {-# LANGUAGE Safe #-}
+{-# OPTIONS_HADDOCK show-extensions #-}
 
 {-|
 Description : Generic implementation of the Has pattern
