@@ -1,6 +1,7 @@
 {-# LANGUAGE TypeOperators, DataKinds, PolyKinds, TypeFamilies, ConstraintKinds #-}
 {-# LANGUAGE MultiParamTypeClasses, FlexibleInstances, UndecidableInstances, FlexibleContexts #-}
 {-# LANGUAGE ScopedTypeVariables, DefaultSignatures #-}
+{-# LANGUAGE Safe #-}
 
 module Control.Monad.Reader.Has
 ( Has(..)
