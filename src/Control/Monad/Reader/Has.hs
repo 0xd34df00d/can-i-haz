@@ -3,6 +3,64 @@
 {-# LANGUAGE ScopedTypeVariables, DefaultSignatures #-}
 {-# LANGUAGE Safe #-}
 
+{-|
+Description : Generic implementation of the Has pattern
+Stability   : experimental
+
+This module defines a class 'Has' intended to be used with the 'Control.Monad.Reader.MonadReader' class
+or 'Control.Monad.Reader.Reader' / 'Control.Monad.Reader.ReaderT' types.
+
+= The problem
+
+Assume there are two types representing the 'Control.Monad.Reader.MonadReader' environments
+for different parts of an app:
+
+@
+data DbConfig = DbConfig { .. }
+data WebConfig = WebConfig { .. }
+@
+
+as well as a single type containing both of those:
+
+@
+data AppEnv = AppEnv
+  { dbConfig :: DbConfig
+  , webConfig :: WebConfig
+  }
+@
+
+What should be the @MonadReader@ constraint of the DB module and web module respectively?
+
+1. It could be @MonadReader AppEnv m@ for both, introducing unnecessary coupling.
+
+2. Or it could be @MonadReader DbConfig m@ for the DB module and
+   @MonadReader WebConfig m@ for the web module respectively, but combining them becomes a pain.
+
+Or, it could be @MonadReader r m, Has DbConfig r@ for the DB module (and similarly for the web module),
+where some appropriately defined @Has part record@ class allows projecting @part@ out of some @record@.
+This approach keeps both modules decoupled, while allowing using them in the same monad stack.
+
+The only downside is that now one has to define the @Has@ class and write tediuos instances for the @AppEnv@ type
+(and potentially other types in case of tests).
+
+But why bother doing the work that the machine will happily do for you?
+
+= The solution
+
+This module defines the generic 'Has' class as well as hides all the boilerplate behind "GHC.Generics",
+so all you have to do is to add the corresponding @deriving@-clause:
+
+@
+data AppEnv = AppEnv
+  { dbConfig :: DbConfig
+  , webConfig :: WebConfig
+  } deriving (Generic, Has DbConfig, Has WebConfig)
+@
+
+and use @ask extract@ instead of @ask@ (but this is something you'd have to do anyway).
+
+-}
+
 module Control.Monad.Reader.Has
 ( Has(..)
 ) where
