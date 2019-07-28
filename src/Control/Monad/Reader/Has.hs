@@ -102,11 +102,20 @@ instance GHas path part r => GHas ('R path) part (l :*: r) where
 
 type SuccessfulSearch part record path = (Search part (Rep record) ~ 'Found path, GHas path part (Rep record))
 
+-- | The @Has part record@ class is used for records of type @record@ supporting
+-- projecting out a value of type @part@.
 class Has part record where
+  -- | Extract a subvalue of type @part@ from the @record@.
+  --
+  -- The default implementation searches for some value of the type @part@ in @record@ (potentially recursively)
+  -- and returns that value. The default implementation typechecks if and only if
+  -- there is a single subvalue of type @part@ in @record@.
   extract :: record -> part
+
   default extract :: forall path. (Generic record, SuccessfulSearch part record path) => record -> part
   extract = gextract (Proxy :: Proxy path) . from
 
+-- | Each type allows projecting itself (and that is an 'id' projection).
 instance Has record record where
   extract = id
 
