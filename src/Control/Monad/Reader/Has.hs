@@ -60,6 +60,17 @@ data AppEnv = AppEnv
 
 and use @ask extract@ instead of @ask@ (but this is something you'd have to do anyway).
 
+= Type safety
+
+What should happen if @record@ does not have any field of type @part@ at all?
+Of course, this means that we cannot project @part@ out of @record@, and no 'Has' instance can be derived at all.
+Indeed, this library will fail to generate an instance in this case.
+
+On the other hand, what should happen if @record@ contains multiple values of type @part@,
+perhaps on different levels of nesting? While technically we could make an arbitrary choice, like taking
+the first one in breadth-first or depth-first order, we instead decide that such a choice is inherently ambiguous,
+so this library will fail to generate an instance in this case as well.
+
 -}
 
 module Control.Monad.Reader.Has
