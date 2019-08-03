@@ -50,6 +50,10 @@ data AppEnv = AppEnv
 ```
 and use `ask extract` instead of `ask` (but this is something you'd have to do anyway).
 
+## Documentation
+
+Perhaps the best source is the [Haddock docs](http://hackage.haskell.org/package/can-i-haz/docs/Control-Monad-Reader-Has.html).
+
 [travis]:        <https://travis-ci.org/0xd34df00d/can-i-haz>
 [travis-badge]:  <https://travis-ci.org/0xd34df00d/can-i-haz.svg?branch=master>
 [hackage]:       <https://hackage.haskell.org/package/can-i-haz>
