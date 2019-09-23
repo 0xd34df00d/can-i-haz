@@ -96,7 +96,7 @@ class GHas (path :: Path) part grecord where
 instance GHas 'Here rec (K1 i rec) where
   gextract _ (K1 x) = x
 
-instance GHas path part struct => GHas path part (M1 i t struct) where
+instance GHas path part record => GHas path part (M1 i t record) where
   gextract proxy (M1 x) = gextract proxy x
 
 instance GHas path part l => GHas ('L path) part (l :*: r) where
