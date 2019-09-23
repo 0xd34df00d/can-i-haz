@@ -1,10 +1,26 @@
+{-# LANGUAGE MultiParamTypeClasses, RankNTypes, GADTs #-}
+
 import Test.Hspec
-import Test.ShouldNotTypecheck
+import Test.HUnit.Lang
+
+import Control.DeepSeq
+import Control.Exception
+import Data.List
 
 import Control.Monad.Reader.Has
 
 import Common
 import TypecheckFailures
+
+-- Reimplementing due to https://github.com/CRogers/should-not-typecheck/issues/18
+shouldNotTypecheck :: NFData a => (() ~ () => a) -> Assertion
+shouldNotTypecheck a = do
+  result <- try (evaluate $ force a)
+  case result of
+    Right _ -> assertFailure "Expected expression to not compile but it did compile"
+    Left e@(TypeError msg) -> case isSuffixOf "(deferred type error)" msg of
+      True -> return ()
+      False -> throwIO e
 
 main :: IO ()
 main = hspec $ do
