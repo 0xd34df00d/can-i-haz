@@ -13,40 +13,40 @@ import GHC.Generics
 
 import Data.Path
 
-type family Search part (g :: k -> *) :: MaybePath where
-  Search part (K1 _ part) = 'Found 'Here
-  Search part (K1 _ other) = 'NotFound
-  Search part (M1 _ _ x) = Search part x
-  Search part (f :+: g) = Combine (Search part f) (Search part g)
+type family Search option (g :: k -> *) :: MaybePath where
+  Search option (K1 _ option) = 'Found 'Here
+  Search option (K1 _ other) = 'NotFound
+  Search option (M1 _ _ x) = Search option x
+  Search option (f :+: g) = Combine (Search option f) (Search option g)
   Search _ _ = 'NotFound
 
-class GCoHas (path :: Path) part grecord where
-  ginject :: Proxy path -> part -> grecord p
+class GCoHas (path :: Path) option gsum where
+  ginject :: Proxy path -> option -> gsum p
 
 instance GCoHas 'Here rec (K1 i rec) where
   ginject _ = K1
 
-instance GCoHas path part record => GCoHas path part (M1 i t record) where
+instance GCoHas path option sum => GCoHas path option (M1 i t sum) where
   ginject proxy = M1 . ginject  proxy
 
-instance GCoHas path part l => GCoHas ('L path) part (l :+: r) where
+instance GCoHas path option l => GCoHas ('L path) option (l :+: r) where
   ginject _ = L1 . ginject (Proxy :: Proxy path)
 
-instance GCoHas path part r => GCoHas ('R path) part (l :+: r) where
+instance GCoHas path option r => GCoHas ('R path) option (l :+: r) where
   ginject _ = R1 . ginject (Proxy :: Proxy path)
 
--- | Type alias representing that the search of @part@ in @record@ has been successful.
+-- | Type alias representing that the search of @option@ in @sum@ has been successful.
 --
 -- The @path@ is used to guide the default generic implementation of 'Has'.
-type SuccessfulSearch part record path = (Search part (Rep record) ~ 'Found path, GCoHas path part (Rep record))
+type SuccessfulSearch option sum path = (Search option (Rep sum) ~ 'Found path, GCoHas path option (Rep sum))
 
-class CoHas part record where
-  inject :: part -> record
+class CoHas option sum where
+  inject :: option -> sum
 
-  default inject :: forall path. (Generic record, SuccessfulSearch part record path) => part -> record
+  default inject :: forall path. (Generic sum, SuccessfulSearch option sum path) => option -> sum
   inject = to . ginject (Proxy :: Proxy path)
 
-instance CoHas record record where
+instance CoHas sum sum where
   inject = id
 
 instance SuccessfulSearch l (Either l r) path => CoHas l (Either l r)
