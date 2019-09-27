@@ -59,6 +59,22 @@ data AppEnv = AppEnv
 
 and use @ask extract@ instead of @ask@ (but this is something you'd have to do anyway).
 
+Note that this 'Generic'-based implementation walks the types recursively,
+so it's totally possible to derive 'Has' for some nested type, for example:
+
+@
+data DbConfig = DbConfig
+  { connInfo :: ConnInfo
+  , retriesPolicy :: RetriesPolicy
+  }
+data WebConfig = WebConfig { .. }
+
+data AppEnv = AppEnv
+  { dbConfig :: DbConfig
+  , webConfig :: WebConfig
+  } deriving (Generic, Has DbConfig, Has WebConfig, Has ConnInfo, Has RetriesPolicy)
+@
+
 = Type safety
 
 What should happen if @record@ does not have any field of type @part@ at all?
