@@ -109,12 +109,19 @@ instance GCoHas path option r => GCoHas ('R path) option (l :+: r) where
 -- The @path@ is used to guide the default generic implementation of 'Has'.
 type SuccessfulSearch option sum path = (Search option (Rep sum) ~ 'Found path, GCoHas path option (Rep sum))
 
+-- | The @CoHas option sum@ class is used for sum types that could be created from a value of type @option@.
 class CoHas option sum where
+  -- | Inject an @option@ into the @sum@ type.
+  --
+  -- The default implementation searches @sum@ for some constructor
+  -- that's compatible with @option@ (potentially recursively) and creates @sum@ using that constructor.
+  -- The default implementation typechecks if and only if there is a single matching constructor.
   inject :: option -> sum
 
   default inject :: forall path. (Generic sum, SuccessfulSearch option sum path) => option -> sum
   inject = to . ginject (Proxy :: Proxy path)
 
+-- | Each type can be injected into itself (and that is an 'id' injection).
 instance CoHas sum sum where
   inject = id
 
