@@ -106,7 +106,7 @@ instance GCoHas path option r => GCoHas ('R path) option (l :+: r) where
 
 -- | Type alias representing that the search of @option@ in @sum@ has been successful.
 --
--- The @path@ is used to guide the default generic implementation of 'Has'.
+-- The @path@ is used to guide the default generic implementation of 'CoHas'.
 type SuccessfulSearch option sum path = (Search option (Rep sum) ~ 'Found path, GCoHas path option (Rep sum))
 
 -- | The @CoHas option sum@ class is used for sum types that could be created from a value of type @option@.
