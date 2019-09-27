@@ -13,7 +13,7 @@ or 'Control.Monad.Reader.Reader' / 'Control.Monad.Reader.ReaderT' types.
 = The problem
 
 Assume there are two types representing the 'Control.Monad.Reader.MonadReader' environments
-for different parts of an app:
+for different parts of an application:
 
 @
 data DbConfig = DbConfig { .. }
@@ -41,7 +41,7 @@ where some appropriately defined @Has part record@ class allows projecting @part
 This approach keeps both modules decoupled, while allowing using them in the same monad stack.
 
 The only downside is that now one has to define the @Has@ class and write tediuos instances for the @AppEnv@ type
-(and potentially other types in case of tests).
+(and potentially other types in case of, for example, tests).
 
 But why bother doing the work that the machine will happily do for you?
 
@@ -79,12 +79,12 @@ data AppEnv = AppEnv
 
 What should happen if @record@ does not have any field of type @part@ at all?
 Of course, this means that we cannot project @part@ out of @record@, and no 'Has' instance can be derived at all.
-Indeed, this library will fail to generate an instance in this case.
+Indeed, this library will refuse to generate an instance in this case.
 
 On the other hand, what should happen if @record@ contains multiple values of type @part@,
 perhaps on different levels of nesting? While technically we could make an arbitrary choice, like taking
 the first one in breadth-first or depth-first order, we instead decide that such a choice is inherently ambiguous,
-so this library will fail to generate an instance in this case as well.
+so this library will refuse to generate an instance in this case as well.
 
 -}
 
