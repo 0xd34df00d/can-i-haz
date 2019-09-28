@@ -50,6 +50,14 @@ data AppEnv = AppEnv
 ```
 and use `ask extract` instead of `ask` (but this is something you'd have to do anyway).
 
+## Reversing the arrows: `CoHas`
+
+There is a dual (but arguably less frequent) problem of combining different parts of an application
+living in different `MonadError` environments.
+The duality is due to us now wanting to _inject_ values of a type _into_ a "wider" _sum_ type
+(as opposed to _projecting_ values _out_ of some _product_ type).
+The `CoHas` class serves exactly this purpose.
+
 ## Documentation
 
 Perhaps the best source is the [Haddock docs](http://hackage.haskell.org/package/can-i-haz/docs/Control-Monad-Reader-Has.html).
