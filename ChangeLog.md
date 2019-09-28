@@ -1,6 +1,6 @@
 # Changelog for can-i-haz
 
-## Unreleased changes
+## 0.2.0.0
 
 * Added `CoHas` class (dual to `Has`), allowing injecting values into sum types.
 
