@@ -10,7 +10,7 @@ extra-source-files:
 - README.md
 - ChangeLog.md
 
-synopsis:            Generic implementation of the Has pattern
+synopsis:            Generic implementation of the Has and CoHas patterns
 category:            Control
 
 description:         Please see the README on GitHub at <https://github.com/0xd34df00d/can-i-haz#readme>
