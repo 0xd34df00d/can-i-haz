@@ -144,3 +144,6 @@ instance Has record record where
 
 instance SuccessfulSearch a (a0, a1) path => Has a (a0, a1)
 instance SuccessfulSearch a (a0, a1, a2) path => Has a (a0, a1, a2)
+instance SuccessfulSearch a (a0, a1, a2, a3) path => Has a (a0, a1, a2, a3)
+instance SuccessfulSearch a (a0, a1, a2, a3, a4) path => Has a (a0, a1, a2, a3, a4)
+instance SuccessfulSearch a (a0, a1, a2, a3, a4, a5) path => Has a (a0, a1, a2, a3, a4, a5)
