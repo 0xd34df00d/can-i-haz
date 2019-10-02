@@ -125,5 +125,4 @@ class CoHas option sum where
 instance CoHas sum sum where
   inject = id
 
-instance SuccessfulSearch l (Either l r) path => CoHas l (Either l r)
-instance SuccessfulSearch r (Either l r) path => CoHas r (Either l r)
+instance SuccessfulSearch a (Either l r) path => CoHas a (Either l r)
