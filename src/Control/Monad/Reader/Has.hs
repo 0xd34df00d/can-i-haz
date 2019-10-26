@@ -87,8 +87,15 @@ and use 'update' and 'extract' where necessary (likely in combination with 'modi
 module Control.Monad.Reader.Has
 ( Has(..)
 , SuccessfulSearch
+
+, module X
+, ask
+, asks
+, reader
 ) where
 
+import qualified Control.Monad.Reader as M
+import Control.Monad.Reader as X hiding(ask, asks, reader)
 import Data.Proxy
 import GHC.Generics
 
@@ -159,3 +166,10 @@ instance SuccessfulSearch a (a0, a1, a2) path => Has a (a0, a1, a2)
 instance SuccessfulSearch a (a0, a1, a2, a3) path => Has a (a0, a1, a2, a3)
 instance SuccessfulSearch a (a0, a1, a2, a3, a4) path => Has a (a0, a1, a2, a3, a4)
 instance SuccessfulSearch a (a0, a1, a2, a3, a4, a5) path => Has a (a0, a1, a2, a3, a4, a5)
+
+ask :: (MonadReader record m, Has part record) => m part
+ask = M.asks extract
+
+asks, reader :: (MonadReader record m, Has part record) => (part -> a) -> m a
+asks f = f <$> ask
+reader = asks
