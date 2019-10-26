@@ -1,6 +1,6 @@
 # Changelog for can-i-haz
 
-## Unreleased changes
+## 0.2.1.0
 
 * Added the `update` method to `Has` (yay lenses).
 * Fixed the documentation regarding the recursiveness of the search.
