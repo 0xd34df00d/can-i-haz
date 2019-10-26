@@ -114,8 +114,8 @@ class CoHas option sum where
   -- | Inject an @option@ into the @sum@ type.
   --
   -- The default implementation searches @sum@ for some constructor
-  -- that's compatible with @option@ (potentially recursively) and creates @sum@ using that constructor.
-  -- The default implementation typechecks if and only if there is a single matching constructor.
+  -- that's compatible with @option@ and creates @sum@ using that constructor.
+  -- The default implementation typechecks iff there is a single matching constructor.
   inject :: option -> sum
 
   default inject :: forall path. (Generic sum, SuccessfulSearch option sum path) => option -> sum
