@@ -120,13 +120,18 @@ class Has part record where
   -- | Extract a subvalue of type @part@ from the @record@.
   --
   -- The default implementation searches for some value of the type @part@ in @record@
-  -- and returns that value. The default implementation typechecks if and only if
-  -- there is a single subvalue of type @part@ in @record@.
+  -- and returns that value.
+  -- The default implementation typechecks iff there is a single subvalue of type @part@ in @record@.
   extract :: record -> part
 
   default extract :: forall path. (Generic record, SuccessfulSearch part record path) => record -> part
   extract = gextract (Proxy :: Proxy path) . from
 
+  -- | Update the @record@ given an update function for the @part@.
+  --
+  -- The default implementation searches for some value of the type @part@ in @record@
+  -- and updates that value using the supplied function.
+  -- The default implementation typechecks iff there is a single subvalue of type @part@ in @record@.
   update :: (part -> part) -> record -> record
 
   default update :: forall path. (Generic record, SuccessfulSearch part record path) => (part -> part) -> record -> record
