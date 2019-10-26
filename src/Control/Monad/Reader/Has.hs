@@ -70,6 +70,18 @@ perhaps on different levels of nesting? While technically we could make an arbit
 the first one in breadth-first or depth-first order, we instead decide that such a choice is inherently ambiguous,
 so this library will refuse to generate an instance in this case as well.
 
+= Updating the records, or poor man's lenses, and State
+
+One we know that a value of type @part@ is contained in @record@,
+we might easily update a @record@ having a function that updates the @part@.
+This is done in the obvious way: we just locate the @part@ in the @record@ and 'update' it!
+
+'Has' has a method for this, called (unsurprisingly) 'update'.
+
+Note that this might be used for more composable functions living in 'Control.Monad.State':
+now instead of @MonadState StateType m@ we write @(MonadState s m, Has StateType s)@
+and use 'update' and 'extract' where necessary (likely in combination with 'modify' and 'gets').
+
 -}
 
 module Control.Monad.Reader.Has
