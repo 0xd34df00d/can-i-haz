@@ -1,5 +1,10 @@
 # Changelog for can-i-haz
 
+## Unreleased changes
+
+* Added the `update` method to `Has` (yay lenses).
+* Fixed the documentation regarding the recursiveness of the search.
+
 ## 0.2.0.1
 
 * Less boilerplate for `Has` tuple instances and `CoHas` `Either` instance.
