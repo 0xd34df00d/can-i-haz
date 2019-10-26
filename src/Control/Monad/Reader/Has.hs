@@ -107,18 +107,23 @@ type family Search part (g :: k -> *) :: MaybePath where
 
 class GHas (path :: Path) part grecord where
   gextract :: Proxy path -> grecord p -> part
+  gupdate :: Proxy path -> (part -> part) -> grecord p -> grecord p
 
 instance GHas 'Here rec (K1 i rec) where
   gextract _ (K1 x) = x
+  gupdate _ f (K1 x) = K1 $ f x
 
 instance GHas path part record => GHas path part (M1 i t record) where
   gextract proxy (M1 x) = gextract proxy x
+  gupdate proxy f (M1 x) = M1 (gupdate proxy f x)
 
 instance GHas path part l => GHas ('L path) part (l :*: r) where
   gextract _ (l :*: _) = gextract (Proxy :: Proxy path) l
+  gupdate _ f (l :*: r) = gupdate (Proxy :: Proxy path) f l :*: r
 
 instance GHas path part r => GHas ('R path) part (l :*: r) where
   gextract _ (_ :*: r) = gextract (Proxy :: Proxy path) r
+  gupdate _ f (l :*: r) = l :*: gupdate (Proxy :: Proxy path) f r
 
 -- | Type alias representing that the search of @part@ in @record@ has been successful.
 --
@@ -138,9 +143,15 @@ class Has part record where
   default extract :: forall path. (Generic record, SuccessfulSearch part record path) => record -> part
   extract = gextract (Proxy :: Proxy path) . from
 
+  update :: (part -> part) -> record -> record
+
+  default update :: forall path. (Generic record, SuccessfulSearch part record path) => (part -> part) -> record -> record
+  update f = to . gupdate (Proxy :: Proxy path) f . from
+
 -- | Each type allows projecting itself (and that is an 'id' projection).
 instance Has record record where
   extract = id
+  update = id
 
 instance SuccessfulSearch a (a0, a1) path => Has a (a0, a1)
 instance SuccessfulSearch a (a0, a1, a2) path => Has a (a0, a1, a2)
