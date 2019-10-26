@@ -58,7 +58,7 @@ main = hspec $ do
         let exBar = extract (baseFooEnv, baseBarEnv)
         exBar `shouldBe` baseBarEnv
       it "tuples update their components" $ do
-        let pair' = update fooEnvTwice $ update barEnvCons $ (baseFooEnv, baseBarEnv)
+        let pair' = update fooEnvTwice $ update barEnvCons (baseFooEnv, baseBarEnv)
         pair' `shouldBe` (baseFooEnvTwice, baseBarEnvCons)
     describe "Should not typecheck" $ do
       it "if there is no such type in the hierarchy" $ shouldNotTypecheck extractMissing
