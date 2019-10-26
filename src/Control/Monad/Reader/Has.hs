@@ -59,22 +59,6 @@ data AppEnv = AppEnv
 
 and use @ask extract@ instead of @ask@ (but this is something you'd have to do anyway).
 
-Note that this 'Generic'-based implementation walks the types recursively,
-so it's totally possible to derive 'Has' for some nested type, for example:
-
-@
-data DbConfig = DbConfig
-  { connInfo :: ConnInfo
-  , retriesPolicy :: RetriesPolicy
-  }
-data WebConfig = WebConfig { .. }
-
-data AppEnv = AppEnv
-  { dbConfig :: DbConfig
-  , webConfig :: WebConfig
-  } deriving (Generic, Has DbConfig, Has WebConfig, Has ConnInfo, Has RetriesPolicy)
-@
-
 = Type safety
 
 What should happen if @record@ does not have any field of type @part@ at all?
@@ -135,7 +119,7 @@ type SuccessfulSearch part record path = (Search part (Rep record) ~ 'Found path
 class Has part record where
   -- | Extract a subvalue of type @part@ from the @record@.
   --
-  -- The default implementation searches for some value of the type @part@ in @record@ (potentially recursively)
+  -- The default implementation searches for some value of the type @part@ in @record@
   -- and returns that value. The default implementation typechecks if and only if
   -- there is a single subvalue of type @part@ in @record@.
   extract :: record -> part
