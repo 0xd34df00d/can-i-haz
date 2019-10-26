@@ -19,9 +19,9 @@ shouldNotTypecheck a = do
   result <- try (evaluate $ force a)
   case result of
     Right _ -> assertFailure "Expected expression to not compile but it did compile"
-    Left e@(TypeError msg) -> case isSuffixOf "(deferred type error)" msg of
-      True -> return ()
-      False -> throwIO e
+    Left e@(TypeError msg) -> if "(deferred type error)" `isSuffixOf` msg
+                                 then pure ()
+                                 else throwIO e
 
 main :: IO ()
 main = hspec $ do
