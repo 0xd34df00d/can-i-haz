@@ -80,7 +80,13 @@ This is done in the obvious way: we just locate the @part@ in the @record@ and '
 
 Note that this might be used for more composable functions living in 'Control.Monad.State':
 now instead of @MonadState StateType m@ we write @(MonadState s m, Has StateType s)@
-and use 'update' and 'extract' where necessary (likely in combination with 'modify' and 'gets').
+and use 'update' and 'extract' where necessary
+(likely in combination with 'Control.Monad.State.modify' and 'Control.Monad.State.gets').
+
+= Exports
+
+This module also reexports 'Control.Monad.Reader' along with some functions like 'ask' or 'reader'
+with types adjusted for the intended usage of the 'Has' class.
 
 -}
 
