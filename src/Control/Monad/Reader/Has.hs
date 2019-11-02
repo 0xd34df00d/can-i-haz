@@ -7,12 +7,12 @@
 Description : Generic implementation of the Has pattern
 Stability   : experimental
 
-This module defines a class 'Has' intended to be used with the 'Control.Monad.Reader.MonadReader' class
-or 'Control.Monad.Reader.Reader' / 'Control.Monad.Reader.ReaderT' types.
+This module defines a class 'Has' intended to be used with the 'MonadReader' class
+or 'Reader' / 'ReaderT' types.
 
 = The problem
 
-Assume there are two types representing the 'Control.Monad.Reader.MonadReader' environments
+Assume there are two types representing the 'MonadReader' environments
 for different parts of an application:
 
 @

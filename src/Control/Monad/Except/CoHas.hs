@@ -7,8 +7,8 @@
 Description: Generic implementation of the CoHas injection pattern (dual to Has)
 Stability: experimental
 
-This module defines a class 'CoHas' intended to be used with the 'Control.Monad.Except.MonadError' class
-(and similar ones) or 'Control.Monad.Except.Except'/'Control.Monad.ExceptT' types.
+This module defines a class 'CoHas' intended to be used with the 'MonadError' class
+(and similar ones) or 'Except' / 'ExceptT' types.
 
 = The problem
 
@@ -69,6 +69,11 @@ On the other hand, what should happen if @sum@ contains multiple values of type 
 While technically we could make an arbitrary choice, like taking the first one in breadth-first or depth-first order,
 we instead decide that such a choice is inherently ambiguous,
 so this library will refuse to generate an instance in this case as well.
+
+= Exports
+
+This module also reexports 'Control.Monad.Except' along with some functions like 'throwError' or 'liftEither'
+with types adjusted for the intended usage of the 'CoHas' class.
 
 -}
 
@@ -134,8 +139,16 @@ instance CoHas sum sum where
 
 instance SuccessfulSearch a (Either l r) path => CoHas a (Either l r)
 
+-- | Begin error processing for the error of type @option@.
+--
+-- This is "Control.Monad.Except"'s 'Control.Monad.Except.throwError'
+-- with the type adjusted for better compatibility with 'CoHas'.
 throwError :: (MonadError error m, CoHas option error) => option -> m a
 throwError = M.throwError . inject
 
+-- | Lifts an 'Either' @option@ into any 'MonadError' @error@ where @option@ can be 'inject'ed into @error@.
+--
+-- This is "Control.Monad.Except"'s 'Control.Monad.Except.liftEither'
+-- with the type adjusted for better compatibility with 'CoHas'.
 liftEither :: (MonadError error m, CoHas option error) => Either option a -> m a
 liftEither = M.liftEither . first inject
