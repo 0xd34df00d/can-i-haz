@@ -167,9 +167,23 @@ instance SuccessfulSearch a (a0, a1, a2, a3) path => Has a (a0, a1, a2, a3)
 instance SuccessfulSearch a (a0, a1, a2, a3, a4) path => Has a (a0, a1, a2, a3, a4)
 instance SuccessfulSearch a (a0, a1, a2, a3, a4, a5) path => Has a (a0, a1, a2, a3, a4, a5)
 
+-- | Retrieves the @part@ of the monad environment.
+--
+-- This is "Control.Monad.Reader"'s 'Control.Monad.Reader.ask'
+-- with the type adjusted for better compatibility with 'Has'.
 ask :: (MonadReader record m, Has part record) => m part
 ask = M.asks extract
 
-asks, reader :: (MonadReader record m, Has part record) => (part -> a) -> m a
+-- | Retrieves a function of the @part@ of the current environment.
+--
+-- This is "Control.Monad.Reader"'s 'Control.Monad.Reader.asks'
+-- with the type adjusted for better compatibility with 'Has'.
+asks :: (MonadReader record m, Has part record) => (part -> a) -> m a
 asks f = f <$> ask
+
+-- | Retrieves a function of the @part@ of the current environment.
+--
+-- This is "Control.Monad.Reader"'s 'Control.Monad.Reader.reader'
+-- with the type adjusted for better compatibility with 'Has'.
+reader :: (MonadReader record m, Has part record) => (part -> a) -> m a
 reader = asks
