@@ -5,7 +5,8 @@
 [![Stackage LTS][stackage-lts-badge]][stackage-lts]
 [![Stackage Nightly][stackage-nightly-badge]][stackage-nightly]
 
-`Generic` implementation of the Has-pattern (mostly useful with `MonadReader`).
+`Generic` implementation of the Has-pattern (mostly useful with `MonadReader` and `MonadState`)
+and its dual `CoHas` (mostly useful with `MonadError`).
 
 ## Motivation
 
