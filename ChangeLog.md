@@ -1,5 +1,11 @@
 # Changelog for can-i-haz
 
+## 0.3.0.0
+
+* Reexport `Control.Monad.Reader` from the `Control.Monad.Reader.Has` module with
+  custom `ask`, `asks` and `reader` functions more compatible with the `Has` class.
+* Similarly for `Control.Monad.Except`, `CoHas` and `throwError`/`liftError` functions.
+
 ## 0.2.1.0
 
 * Added the `update` method to `Has` (yay lenses).
