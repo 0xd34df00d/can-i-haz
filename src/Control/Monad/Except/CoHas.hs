@@ -75,8 +75,15 @@ so this library will refuse to generate an instance in this case as well.
 module Control.Monad.Except.CoHas
 ( CoHas(..)
 , SuccessfulSearch
+
+, module X
+, throwError
+, liftEither
 ) where
 
+import qualified Control.Monad.Except as M
+import Control.Monad.Except as X hiding(throwError, liftEither)
+import Data.Bifunctor
 import Data.Proxy
 import GHC.Generics
 
@@ -126,3 +133,9 @@ instance CoHas sum sum where
   inject = id
 
 instance SuccessfulSearch a (Either l r) path => CoHas a (Either l r)
+
+throwError :: (MonadError error m, CoHas option error) => option -> m a
+throwError = M.throwError . inject
+
+liftEither :: (MonadError error m, CoHas option error) => Either option a -> m a
+liftEither = M.liftEither . first inject
