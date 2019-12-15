@@ -1,5 +1,9 @@
 # Changelog for can-i-haz
 
+## 0.3.1.0
+
+* Add `liftMaybe` utility function to `Control.Monad.Except.CoHas`.
+
 ## 0.3.0.0
 
 * Reexport `Control.Monad.Reader` from the `Control.Monad.Reader.Has` module with
