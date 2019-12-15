@@ -84,6 +84,7 @@ module Control.Monad.Except.CoHas
 , module X
 , throwError
 , liftEither
+, liftMaybe
 ) where
 
 import qualified Control.Monad.Except as M
@@ -152,3 +153,10 @@ throwError = M.throwError . inject
 -- with the type adjusted for better compatibility with 'CoHas'.
 liftEither :: (MonadError error m, CoHas option error) => Either option a -> m a
 liftEither = M.liftEither . first inject
+
+-- | Lifts a 'Maybe' into any 'MonadError' @error@.
+--
+-- This function 'inject's the passed @option@ if the 'Maybe' is 'Nothing'.
+liftMaybe :: (MonadError error m, CoHas option error) => option -> Maybe a -> m a
+liftMaybe _ (Just val) = pure val
+liftMaybe err Nothing = throwError err
