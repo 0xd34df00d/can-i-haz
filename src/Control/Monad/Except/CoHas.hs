@@ -90,12 +90,13 @@ module Control.Monad.Except.CoHas
 import qualified Control.Monad.Except as M
 import Control.Monad.Except as X hiding(throwError, liftEither)
 import Data.Bifunctor
+import Data.Kind
 import Data.Proxy
 import GHC.Generics
 
 import Data.Path
 
-type family Search option (g :: k -> *) :: MaybePath where
+type family Search option (g :: k -> Type) :: MaybePath where
   Search option (K1 _ option) = 'Found 'Here
   Search option (K1 _ other) = 'NotFound
   Search option (M1 _ _ x) = Search option x

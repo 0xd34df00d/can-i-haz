@@ -102,12 +102,13 @@ module Control.Monad.Reader.Has
 
 import qualified Control.Monad.Reader as M
 import Control.Monad.Reader as X hiding(ask, asks, reader)
+import Data.Kind
 import Data.Proxy
 import GHC.Generics
 
 import Data.Path
 
-type family Search part (g :: k -> *) :: MaybePath where
+type family Search part (g :: k -> Type) :: MaybePath where
   Search part (K1 _ part) = 'Found 'Here
   Search part (K1 _ other) = 'NotFound
   Search part (M1 _ _ x) = Search part x
