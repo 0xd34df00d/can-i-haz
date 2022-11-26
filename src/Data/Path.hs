@@ -1,5 +1,6 @@
-{-# LANGUAGE DataKinds, TypeFamilies #-}
+{-# LANGUAGE DataKinds #-}
 {-# LANGUAGE Safe #-}
+{-# LANGUAGE TypeFamilies #-}
 
 module Data.Path where
 
