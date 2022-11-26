@@ -1,5 +1,9 @@
 # Changelog for can-i-haz
 
+## 0.3.1.1
+
+* Fix certain warnings with newer GHC for cleaner builds.
+
 ## 0.3.1.0
 
 * Add `liftMaybe` utility function to `Control.Monad.Except.CoHas`.
