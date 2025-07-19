@@ -1,4 +1,5 @@
 {-# LANGUAGE MultiParamTypeClasses, RankNTypes, GADTs #-}
+{-# LANGUAGE TypeOperators #-}
 
 import Test.Hspec
 import Test.HUnit.Lang
